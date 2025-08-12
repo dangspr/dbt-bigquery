@@ -9,7 +9,7 @@
 
 {{ config(materialized='table') }}
 
-with source_data as (
+with source_sysmap as (
 
     select 1 as id
     union all
@@ -18,7 +18,7 @@ with source_data as (
 )
 
 select *
-from source_data
+from source_sysmap
 
 /*
     Uncomment the line below to remove records with null `id` values
