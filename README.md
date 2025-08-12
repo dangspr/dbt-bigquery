@@ -1,142 +1,154 @@
 # dbt-bigquery
 
-Case Dbt with bigquery integration
+**Case Study: dbt with BigQuery Integration**
 
-<!-- Badges -->
 <p align="center">
-   <a href="https://www.linkedin.com/in/danilo-gaspar98/">
-      <img alt="Danilo Gaspar" src="https://img.shields.io/badge/LinkedIn%20--%20-Danilo%20Gaspar-blue" />
-   </a>
+  <a href="https://www.linkedin.com/in/danilo-gaspar98/">
+    <img alt="Danilo Gaspar" src="https://img.shields.io/badge/LinkedIn-Danilo%20Gaspar-blue" />
+  </a>
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
-##🚀 Projeto de Pipeline de Dados com dbt
-Este projeto demonstra a criação de uma pipeline de dados robusta e automatizada, utilizando ferramentas modernas de transformação e orquestração de dados.
+---
 
-A solução combina:
+## 🚀 Projeto de Pipeline de Dados com dbt
 
-dbt (Data Build Tool) para modelagem de dados,
+Este projeto demonstra a construção de uma **pipeline de dados robusta e automatizada**, utilizando ferramentas modernas para transformação e orquestração de dados.
 
-Google Cloud Platform (GCP) como data warehouse (via BigQuery),
+A solução integra:
 
-GitHub Actions para automação do CI/CD.
+- **dbt (Data Build Tool)**: Para modelagem e transformação de dados.
+- **Google Cloud Platform (GCP)**: Como data warehouse, utilizando o BigQuery.
+- **GitHub Actions**: Para automação de CI/CD.
 
-##🧱 Arquitetura da Solução
+---
+
+## 🧱 Arquitetura da Solução
+
 A arquitetura é composta pelos seguintes componentes:
 
-🔧 dbt (Data Build Tool)
-Ferramenta de transformação de dados baseada em SQL. Permite:
+### 🔧 dbt (Data Build Tool)
+Ferramenta de transformação de dados baseada em SQL, que oferece:
+- Modularização e reutilização de modelos.
+- Aplicação de testes automáticos.
+- Documentação integrada.
 
-Modularização e reutilização de modelos;
+### ☁️ Google Cloud Platform (GCP)
+Plataforma de nuvem utilizada para:
+- Armazenamento e processamento de dados.
+- **BigQuery** como data warehouse principal, onde tabelas e views são materializadas.
 
-Aplicação de testes automáticos;
-
-Documentação integrada.
-
-☁️ Google Cloud Platform (GCP)
-Plataforma de nuvem usada para:
-
-Armazenamento e processamento dos dados;
-
-BigQuery como o data warehouse principal, onde as tabelas/views são materializadas.
-
-##📂 GitHub
+### 📂 GitHub
 Repositório para versionamento de código, contendo:
+- Modelos SQL.
+- Arquivos de schema (`.yml`).
+- Configurações do projeto dbt.
 
-Modelos SQL;
-
-Arquivos de schema (.yml);
-
-Configurações do projeto dbt.
-
-##⚙️ GitHub Actions
+### ⚙️ GitHub Actions
 Ferramenta de CI/CD que automatiza:
+- Execução de builds do dbt.
+- Testes de validação.
+- Deploy automático para o BigQuery.
 
-Execução de builds do dbt;
+---
 
-Testes de validação;
+## 📁 Estrutura do Projeto
 
-Deploy automático para o BigQuery.
-
-##📁 Estrutura do Projeto
-bash
-Copiar
-Editar
+```
 ├── dbt_project.yml       # Configurações globais do projeto dbt
 ├── models/
 │   ├── stg/              # Modelos intermediários (materializados como 'table')
 │   └── my_first_dbt_model.sql
 ├── macros/               # Funções reutilizáveis (opcional)
 └── tests/                # Testes customizados
-📝 Principais arquivos
-dbt_project.yml: Define configurações como materialização padrão e perfil de conexão.
+```
 
-models/*.sql: Arquivos com os modelos SQL.
+### 📝 Principais Arquivos
+- **dbt_project.yml**: Define configurações como materialização padrão e perfil de conexão.
+- **models/*.sql**: Arquivos com os modelos SQL.
+- **models/*.yml**: Arquivos de schema com testes (`unique`, `not_null`, etc.) e documentação.
 
-models/*.yml: Arquivos de schema com testes (unique, not_null, etc) e documentação.
+---
 
-##🔁 Exemplo de Pipeline de Transformação
-📌 my_first_dbt_model
+## 🔁 Exemplo de Pipeline de Transformação
+
+### 📌 my_first_dbt_model
 Modelo inicial com dados de exemplo:
 
-sql
+```sql
 {{ config(materialized='table') }}
 
 SELECT 1 AS id, 'example' AS name
-🔗 Modelo Dependente
-Consome o modelo anterior e aplica transformação:
+```
 
-sql
-Copiar
-Editar
+### 🔗 Modelo Dependente
+Consome o modelo anterior e aplica uma transformação:
+
+```sql
 SELECT *
 FROM {{ ref('my_first_dbt_model') }}
 WHERE id = 1
-Essa estrutura modular permite fácil manutenção, clareza na lógica de negócio e execução eficiente.
+```
 
-##🛠️ Como Replicar o Projeto
-1. Configure o GCP
-Crie um projeto no Google Cloud;
+Essa estrutura modular garante **manutenção simplificada**, clareza na lógica de negócio e execução eficiente.
 
-Ative a API do BigQuery.
+---
 
-2. Credenciais para o dbt
-Crie uma conta de serviço no GCP;
+## 🛠️ Como Replicar o Projeto
 
-Gere uma chave JSON com as permissões necessárias;
+### 1. Configure o GCP
+- Crie um projeto no Google Cloud.
+- Ative a API do BigQuery.
 
-Salve as credenciais no arquivo ~/.dbt/profiles.yml.
+### 2. Credenciais para o dbt
+- Crie uma conta de serviço no GCP.
+- Gere uma chave JSON com as permissões necessárias.
+- Salve as credenciais no arquivo `~/.dbt/profiles.yml`.
 
-3. Configurar GitHub Actions
-Vá até o repositório no GitHub;
+### 3. Configurar GitHub Actions
+- Acesse o repositório no GitHub.
+- Adicione a chave JSON como um secreto (ex.: `GCP_SERVICE_ACCOUNT`).
 
-Adicione o conteúdo da chave JSON como um secreto (ex: GCP_SERVICE_ACCOUNT).
-
-4. Clone o repositório
+### 4. Clone o Repositório
+```bash
 git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
-Configure o arquivo profiles.yml localmente com suas credenciais e projeto GCP.
+```
+- Configure o arquivo `profiles.yml` localmente com suas credenciais e projeto GCP.
 
-5. Executar o projeto
-Localmente:
-
+### 5. Executar o Projeto
+**Localmente**:
+```bash
 dbt run
 dbt test
 dbt docs generate && dbt docs serve
-Ou via GitHub Actions: Os comandos serão executados automaticamente ao realizar um push.
+```
 
-##📚 Documentação
-Você pode gerar a documentação interativa com:
+**Via GitHub Actions**: Os comandos serão executados automaticamente ao realizar um push.
 
+---
+
+## 📚 Documentação
+
+Gere a documentação interativa com:
+```bash
 dbt docs generate && dbt docs serve
-✅ Benefícios da Solução
-💡 Foco em lógica de negócio e não em infraestrutura
+```
 
-🔒 Controle de qualidade com testes automatizados
+---
 
-🧩 Modularidade e escalabilidade com dbt
+## ✅ Benefícios da Solução
 
-🚀 Deploy contínuo com GitHub Actions
+- 💡 **Foco em lógica de negócio**, sem preocupações com infraestrutura.
+- 🔒 **Controle de qualidade** com testes automatizados.
+- 🧩 **Modularidade e escalabilidade** com dbt.
+- 🚀 **Deploy contínuo** com GitHub Actions.
 
-##📬 Contato
-<h4 align=center> Data Engineer - Danilo Gaspar <a href="https://idolink.bio/redessociaisdg"> <strong>Contact</strong> :)</a></a></h4>
+---
+
+## 📬 Contato
+
+<p align="center">
+  <strong>Data Engineer - Danilo Gaspar</strong><br>
+  <a href="https://idolink.bio/redessociaisdg">📧 Contact</a>
+</p>
