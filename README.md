@@ -10,7 +10,7 @@ Case Dbt with bigquery integration
   <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
-🚀 Projeto de Pipeline de Dados com dbt
+##🚀 Projeto de Pipeline de Dados com dbt
 Este projeto demonstra a criação de uma pipeline de dados robusta e automatizada, utilizando ferramentas modernas de transformação e orquestração de dados.
 
 A solução combina:
@@ -21,7 +21,7 @@ Google Cloud Platform (GCP) como data warehouse (via BigQuery),
 
 GitHub Actions para automação do CI/CD.
 
-🧱 Arquitetura da Solução
+##🧱 Arquitetura da Solução
 A arquitetura é composta pelos seguintes componentes:
 
 🔧 dbt (Data Build Tool)
@@ -40,7 +40,7 @@ Armazenamento e processamento dos dados;
 
 BigQuery como o data warehouse principal, onde as tabelas/views são materializadas.
 
-📂 GitHub
+##📂 GitHub
 Repositório para versionamento de código, contendo:
 
 Modelos SQL;
@@ -49,7 +49,7 @@ Arquivos de schema (.yml);
 
 Configurações do projeto dbt.
 
-⚙️ GitHub Actions
+##⚙️ GitHub Actions
 Ferramenta de CI/CD que automatiza:
 
 Execução de builds do dbt;
@@ -58,7 +58,7 @@ Testes de validação;
 
 Deploy automático para o BigQuery.
 
-📁 Estrutura do Projeto
+##📁 Estrutura do Projeto
 bash
 Copiar
 Editar
@@ -75,13 +75,11 @@ models/*.sql: Arquivos com os modelos SQL.
 
 models/*.yml: Arquivos de schema com testes (unique, not_null, etc) e documentação.
 
-🔁 Exemplo de Pipeline de Transformação
+##🔁 Exemplo de Pipeline de Transformação
 📌 my_first_dbt_model
 Modelo inicial com dados de exemplo:
 
 sql
-Copiar
-Editar
 {{ config(materialized='table') }}
 
 SELECT 1 AS id, 'example' AS name
@@ -96,7 +94,7 @@ FROM {{ ref('my_first_dbt_model') }}
 WHERE id = 1
 Essa estrutura modular permite fácil manutenção, clareza na lógica de negócio e execução eficiente.
 
-🛠️ Como Replicar o Projeto
+##🛠️ Como Replicar o Projeto
 1. Configure o GCP
 Crie um projeto no Google Cloud;
 
@@ -127,12 +125,9 @@ dbt test
 dbt docs generate && dbt docs serve
 Ou via GitHub Actions: Os comandos serão executados automaticamente ao realizar um push.
 
-📚 Documentação
+##📚 Documentação
 Você pode gerar a documentação interativa com:
 
-bash
-Copiar
-Editar
 dbt docs generate && dbt docs serve
 ✅ Benefícios da Solução
 💡 Foco em lógica de negócio e não em infraestrutura
@@ -143,5 +138,5 @@ dbt docs generate && dbt docs serve
 
 🚀 Deploy contínuo com GitHub Actions
 
-📬 Contato
+##📬 Contato
 <h4 align=center> Data Engineer - Danilo Gaspar <a href="https://idolink.bio/redessociaisdg"> <strong>Contact</strong> :)</a></a></h4>
