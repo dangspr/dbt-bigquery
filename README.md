@@ -17,6 +17,8 @@ A solução integra:
 - **Google Cloud Platform (GCP)**: Como data warehouse, utilizando o BigQuery.
 - **GitHub Actions**: Para automação de CI/CD.
 
+![Evidencia](https://raw.githubusercontent.com/dangspr/dbt-bigquery/main/dbt_docs.png)
+
 ## 🧱 Arquitetura da Solução
 A arquitetura é composta pelos seguintes componentes:
 
