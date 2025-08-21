@@ -1,19 +1,15 @@
 # dbt-bigquery
-
-**Case Study: dbt with BigQuery Integration**
+## Case Study: dbt with BigQuery Integration
 
 <p align="center">
-  <a href="https://www.linkedin.com/in/danilo-gaspar98/">
-    <img alt="Danilo Gaspar" src="https://img.shields.io/badge/LinkedIn-Danilo%20Gaspar-blue" />
-  </a>
-  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
+<a href="https://www.linkedin.com/in/danilo-gaspar98/">
+<img alt="Danilo Gaspar" src="https://img.shields.io/badge/LinkedIn-Danilo%20Gaspar-blue" />
+</a>
+<img alt="License" src="https://img.shields.io/badge/license-MIT-blue">
 </p>
 
----
-
 ## 🚀 Projeto de Pipeline de Dados com dbt
-
-Este projeto demonstra a construção de uma **pipeline de dados robusta e automatizada**, utilizando ferramentas modernas para transformação e orquestração de dados.
+Este projeto demonstra a construção de uma pipeline de dados robusta e automatizada, utilizando ferramentas modernas para transformação e orquestração de dados.
 
 A solução integra:
 
@@ -21,10 +17,7 @@ A solução integra:
 - **Google Cloud Platform (GCP)**: Como data warehouse, utilizando o BigQuery.
 - **GitHub Actions**: Para automação de CI/CD.
 
----
-
 ## 🧱 Arquitetura da Solução
-
 A arquitetura é composta pelos seguintes componentes:
 
 ### 🔧 dbt (Data Build Tool)
@@ -36,12 +29,12 @@ Ferramenta de transformação de dados baseada em SQL, que oferece:
 ### ☁️ Google Cloud Platform (GCP)
 Plataforma de nuvem utilizada para:
 - Armazenamento e processamento de dados.
-- **BigQuery** como data warehouse principal, onde tabelas e views são materializadas.
+- BigQuery como data warehouse principal, onde tabelas e views são materializadas.
 
 ### 📂 GitHub
 Repositório para versionamento de código, contendo:
 - Modelos SQL.
-- Arquivos de schema (`.yml`).
+- Arquivos de schema (.yml).
 - Configurações do projeto dbt.
 
 ### ⚙️ GitHub Actions
@@ -50,105 +43,152 @@ Ferramenta de CI/CD que automatiza:
 - Testes de validação.
 - Deploy automático para o BigQuery.
 
----
-
-## 📁 Estrutura do Projeto
+## 📁 Estrutura do Projeto (Atualizada)
+A nova estrutura segue a arquitetura Medallion, separando os modelos em camadas para clareza e governança de dados.
 
 ```
-├── dbt_project.yml       # Configurações globais do projeto dbt
+├── dbt_project.yml        # Configurações globais do projeto dbt
 ├── models/
-│   ├── stg/              # Modelos intermediários (materializados como 'table')
-│   └── my_first_dbt_model.sql
-├── macros/               # Funções reutilizáveis (opcional)
-└── tests/                # Testes customizados
+│   ├── raw/               # Camada Raw: Dados brutos, imutáveis e de origem
+│   │   ├── triggo_shop.sql
+│   │   └── schema.yml
+│   ├── stg/               # Camada Staging: Dados limpos, padronizados e intermediários
+│   │   ├── customers.sql
+│   │   ├── orders.sql
+│   │   └── schema.yml
+│   └── refined/           # Camada Refined: Dados agregados, prontos para análise de negócio
+│       ├── customer_orders_summary.sql
+│       └── schema.yml
+└── ...
 ```
 
-### 📝 Principais Arquivos
-- **dbt_project.yml**: Define configurações como materialização padrão e perfil de conexão.
-- **models/*.sql**: Arquivos com os modelos SQL.
-- **models/*.yml**: Arquivos de schema com testes (`unique`, `not_null`, etc.) e documentação.
+## 📝 Principais Arquivos
+- **dbt_project.yml**: Define configurações como a materialização padrão e o perfil de conexão para cada camada.
+- **models/*.sql**: Arquivos com os modelos SQL, organizados por camada.
+- **models/*.yml**: Arquivos de schema com testes (unique, not_null, etc.) e documentação, localizados junto aos modelos que descrevem.
 
----
+## 🔁 Exemplo do Fluxo de Transformação
+Este projeto transforma dados brutos de pedidos e clientes em uma tabela analítica, seguindo o fluxo de raw -> stg -> refined.
 
-## 🔁 Exemplo de Pipeline de Transformação
-
-### 📌 my_first_dbt_model
-Modelo inicial com dados de exemplo:
+### 📌 Camada raw: triggo_shop
+Fonte de dados brutos do projeto. Contém a tabela estática com dados de clientes e pedidos.
 
 ```sql
-{{ config(materialized='table') }}
+-- models/raw/triggo_shop.sql
+{{
+  config(
+    materialized='table'
+  )
+}}
 
-SELECT 1 AS id, 'example' AS name
+select
+    id,
+    first_name,
+    last_name,
+    user_id,
+    order_date,
+    status
+from (
+    select * from unnest([
+        struct(1 as id, 'Enio' as first_name, 'Tanner' as last_name, 1 as user_id, '2023-01-10' as order_date, 'delivered' as status),
+        struct(2 as id, 'Galego' as first_name, 'Manson' as last_name, 1 as user_id, '2023-01-15' as order_date, 'shipped' as status),
+        struct(3 as id, 'Michelle' as first_name, 'Manson' as last_name, 2 as user_id, '2023-01-18' as order_date, 'delivered' as status),
+        struct(4 as id, 'Edson' as first_name, 'Manson' as last_name, 2 as user_id, '2023-01-20' as order_date, 'pending' as status),
+        struct(5 as id, 'Murilo' as first_name, 'Tanner' as last_name, 3 as user_id, '2023-01-22' as order_date, 'delivered' as status)
+    ])
+)
 ```
 
-### 🔗 Modelo Dependente
-Consome o modelo anterior e aplica uma transformação:
+### 🔗 Camada stg: customers e orders
+Modelos intermediários que selecionam e preparam os dados da tabela triggo_shop.
 
 ```sql
-SELECT *
-FROM {{ ref('my_first_dbt_model') }}
-WHERE id = 1
+-- models/stg/customers.sql
+select
+    id as customer_id,
+    first_name,
+    last_name
+from {{ ref('triggo_shop') }}
 ```
 
-Essa estrutura modular garante **manutenção simplificada**, clareza na lógica de negócio e execução eficiente.
+### 📊 Camada refined: customer_orders_summary
+Modelo final que agrega dados de clientes e pedidos, pronto para ser consumido por ferramentas de BI.
 
----
+```sql
+-- models/refined/customer_orders_summary.sql
+with customers as (
+    select * from {{ ref('customers') }}
+),
+
+orders as (
+    select * from {{ ref('orders') }}
+),
+
+customer_orders as (
+    select
+        customer_id,
+        min(order_date) as first_order_date,
+        count(order_id) as number_of_orders
+    from orders
+    group by 1
+)
+
+select
+    customers.customer_id,
+    customers.first_name,
+    customers.last_name,
+    customer_orders.first_order_date,
+    customer_orders.number_of_orders
+from customers
+left join customer_orders using (customer_id)
+```
+
+Essa estrutura modular garante manutenção simplificada, clareza na lógica de negócio e execução eficiente.
 
 ## 🛠️ Como Replicar o Projeto
+1. **Configure o GCP**
+   - Crie um projeto no Google Cloud.
+   - Ative a API do BigQuery.
+   - **Importante**: Crie manualmente os conjuntos de dados (raw, stg, refined) no BigQuery.
 
-### 1. Configure o GCP
-- Crie um projeto no Google Cloud.
-- Ative a API do BigQuery.
+2. **Credenciais para o dbt**
+   - Crie uma conta de serviço no GCP.
+   - Gere uma chave JSON com as permissões necessárias.
+   - Salve as credenciais no arquivo `~/.dbt/profiles.yml`, configurando cada um dos destinos (raw, stg, refined).
 
-### 2. Credenciais para o dbt
-- Crie uma conta de serviço no GCP.
-- Gere uma chave JSON com as permissões necessárias.
-- Salve as credenciais no arquivo `~/.dbt/profiles.yml`.
+3. **Configurar GitHub Actions**
+   - Acesse o repositório no GitHub.
+   - Adicione a chave JSON como um segredo (ex.: `GCP_SERVICE_ACCOUNT`).
 
-### 3. Configurar GitHub Actions
-- Acesse o repositório no GitHub.
-- Adicione a chave JSON como um secreto (ex.: `GCP_SERVICE_ACCOUNT`).
+4. **Clone o Repositório**
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
+   cd seu-repositorio
+   ```
+   Configure o arquivo `profiles.yml` localmente com suas credenciais e projeto GCP.
 
-### 4. Clone o Repositório
-```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-```
-- Configure o arquivo `profiles.yml` localmente com suas credenciais e projeto GCP.
-
-### 5. Executar o Projeto
-**Localmente**:
-```bash
-dbt run
-dbt test
-dbt docs generate && dbt docs serve
-```
-
-**Via GitHub Actions**: Os comandos serão executados automaticamente ao realizar um push.
-
----
+5. **Executar o Projeto**
+   - **Localmente**:
+     ```bash
+     dbt build
+     ```
+     O comando `dbt build` irá executar o `run` e `test` para todos os modelos, garantindo que a pipeline seja construída corretamente.
+   - **Via GitHub Actions**: Os comandos serão executados automaticamente ao realizar um push.
 
 ## 📚 Documentação
-
 Gere a documentação interativa com:
 ```bash
 dbt docs generate && dbt docs serve
 ```
 
----
-
 ## ✅ Benefícios da Solução
-
-- 💡 **Foco em lógica de negócio**, sem preocupações com infraestrutura.
-- 🔒 **Controle de qualidade** com testes automatizados.
-- 🧩 **Modularidade e escalabilidade** com dbt.
-- 🚀 **Deploy contínuo** com GitHub Actions.
-
----
+- 💡 Foco em lógica de negócio, sem preocupações com infraestrutura.
+- 🔒 Controle de qualidade com testes automatizados.
+- 🧩 Modularidade e escalabilidade com dbt.
+- 🚀 Deploy contínuo com GitHub Actions.
 
 ## 📬 Contato
-
 <p align="center">
-  <strong>Data Engineer - Danilo Gaspar</strong><br>
-  <a href="https://idolink.bio/redessociaisdg">📧 Contact</a>
+<strong>Data Engineer - Danilo Gaspar</strong><br>
+<a href="https://biolink.website/socialDG">📧 Contact</a>
 </p>
