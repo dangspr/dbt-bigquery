@@ -1,0 +1,40 @@
+# profiles.yml
+
+user:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: case-sysmap
+      dataset: dbt_dgasparsysmap 
+      location: southamerica-east1
+      threads: 4
+      keyfile: /path/to/keyfile.json
+    
+    raw:
+      type: bigquery
+      method: service-account
+      project: case-sysmap
+      dataset: raw
+      location: southamerica-east1
+      threads: 4
+      keyfile: /path/to/keyfile.json
+
+    stg:
+      type: bigquery
+      method: service-account
+      project: case-sysmap
+      dataset: stg
+      location: southamerica-east1
+      threads: 4
+      keyfile: /path/to/keyfile.json
+
+    refined:
+      type: bigquery
+      method: service-account
+      project: case-sysmap
+      dataset: refined
+      location: southamerica-east1
+      threads: 4
+      keyfile: /path/to/keyfile.json

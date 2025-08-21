@@ -1,0 +1,22 @@
+# models/refined/schema.yml
+version: 2
+
+models:
+  - name: customer_orders_summary
+    description: "Tabela final de clientes com informações agregadas de pedidos."
+    columns:
+      - name: customer_id
+        description: "ID único do cliente."
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "Primeiro nome do cliente."
+      - name: last_name
+        description: "Sobrenome do cliente."
+      - name: first_order_date
+        description: "Data do primeiro pedido do cliente."
+      - name: most_recent_order_date
+        description: "Data do pedido mais recente do cliente."
+      - name: number_of_orders
+        description: "Número total de pedidos feitos pelo cliente."
