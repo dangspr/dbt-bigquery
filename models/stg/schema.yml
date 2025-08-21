@@ -1,0 +1,25 @@
+# models/stg/schema.yml
+version: 2
+
+models:
+  - name: customers
+    description: "Modelo de staging para clientes, derivado da tabela triggo_shop."
+    columns:
+      - name: customer_id
+        description: "ID único do cliente."
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "Primeiro nome do cliente."
+
+  - name: orders
+    description: "Modelo de staging para pedidos, derivado da tabela triggo_shop."
+    columns:
+      - name: order_id
+        description: "ID único do pedido."
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "ID do cliente que fez o pedido."
