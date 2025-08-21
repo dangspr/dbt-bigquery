@@ -18,7 +18,7 @@ A solução integra:
 - **GitHub Actions**: Para automação de CI/CD.
 
 
-<div style="text-align: center;">
+<div align="center">
   <img src="https://github.com/dangspr/dbt-bigquery/blob/main/gcp_docs.png" alt="Evidencia_gcp">
 </div>
 
@@ -31,7 +31,7 @@ Ferramenta de transformação de dados baseada em SQL, que oferece:
 - Aplicação de testes automáticos.
 - Documentação integrada.
 
-<div style="text-align: center;">
+<div align="center">
   <img src="https://raw.githubusercontent.com/dangspr/dbt-bigquery/main/dbt_docs.png" alt="Evidencia_dbt">
 </div>
 
