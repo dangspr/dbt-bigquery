@@ -31,7 +31,7 @@ Ferramenta de transformação de dados baseada em SQL, que oferece:
 ### ☁️ Google Cloud Platform (GCP)
 Plataforma de nuvem utilizada para:
 - Armazenamento e processamento de dados.
-- BigQuery como data warehouse principal, onde tabelas e views são materializadas.
+- BigQuery como DW, onde tabelas e views são materializadas.
 
 ### 📂 GitHub
 Repositório para versionamento de código, contendo:
@@ -41,11 +41,9 @@ Repositório para versionamento de código, contendo:
 
 ### ⚙️ GitHub Actions
 Ferramenta de CI/CD que automatiza:
-- Execução de builds do dbt.
-- Testes de validação.
-- Deploy automático para o BigQuery.
+- Deploy
 
-## 📁 Estrutura do Projeto (Atualizada)
+## 📁 Estrutura do Projeto 
 A nova estrutura segue a arquitetura Medallion, separando os modelos em camadas para clareza e governança de dados.
 
 ```
