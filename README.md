@@ -17,7 +17,7 @@ A solução integra:
 - **Google Cloud Platform (GCP)**: Como data warehouse, utilizando o BigQuery.
 - **GitHub Actions**: Para automação de CI/CD.
 
-![Evidencia_dbt](https://raw.githubusercontent.com/dangspr/dbt-bigquery/main/dbt_docs.png)
+
 ![Evidencia_gcp](https://github.com/dangspr/dbt-bigquery/blob/main/gcp_docs.png)
 
 
@@ -29,6 +29,8 @@ Ferramenta de transformação de dados baseada em SQL, que oferece:
 - Modularização e reutilização de modelos.
 - Aplicação de testes automáticos.
 - Documentação integrada.
+
+![Evidencia_dbt](https://raw.githubusercontent.com/dangspr/dbt-bigquery/main/dbt_docs.png)
 
 ### ☁️ Google Cloud Platform (GCP)
 Plataforma de nuvem utilizada para:
