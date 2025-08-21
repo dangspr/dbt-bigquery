@@ -1,0 +1,6 @@
+id,first_name,last_name,user_id,order_date,status
+1,Jill,Tanner,1,2023-01-10,delivered
+2,Alex,Manson,1,2023-01-15,shipped
+3,Alex,Manson,2,2023-01-18,delivered
+4,Mark,Manson,2,2023-01-20,pending
+5,Jill,Tanner,3,2023-01-22,delivered
