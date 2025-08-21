@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: case_sysmap
     database: case-sysmap
-    schema: raw
+    schema: dbt_dgasparsysmap_raw
     tables:
       - name: triggo_shop
         description: "Tabela de dados brutos de clientes e pedidos, carregada via dbt seed."
