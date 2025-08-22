@@ -1,3 +1,4 @@
+-- models/stg/orders.sql
 {{
   config(
     materialized='view'
