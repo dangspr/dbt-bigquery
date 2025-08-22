@@ -9,7 +9,7 @@
 </p>
 
 ## 🚀 Projeto de Pipeline de Dados com dbt
-Este projeto demonstra a construção de uma pipeline de dados robusta e automatizada, utilizando ferramentas modernas para transformação e orquestração de dados.
+Este projeto demonstra a construção de uma pipeline de dados robusta e automatizada, utilizando ferramentas modernas para transformação e pronto para aplicar orquestração de dados.
 
 A solução integra:
 
@@ -48,7 +48,7 @@ Repositório para versionamento de código, contendo:
 
 ### ⚙️ GitHub Actions
 Ferramenta de CI/CD que automatiza:
-- Deploy
+- Deploy.
 
 ## 📁 Estrutura do Projeto 
 A nova estrutura segue a arquitetura Medallion, separando os modelos em camadas para clareza e governança de dados.
@@ -111,10 +111,32 @@ Modelos intermediários que selecionam e preparam os dados da tabela triggo_shop
 
 ```sql
 -- models/stg/customers.sql
+{{
+  config(
+    materialized='view'
+  )
+}}
+
 select
     id as customer_id,
     first_name,
     last_name
+from {{ ref('triggo_shop') }}
+```
+
+```sql
+-- models/stg/orders.sql
+{{
+  config(
+    materialized='view'
+  )
+}}
+
+select
+    id as order_id,
+    user_id as customer_id,
+    order_date,
+    status
 from {{ ref('triggo_shop') }}
 ```
 
