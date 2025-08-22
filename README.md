@@ -19,7 +19,7 @@ A solução integra:
 
 
 <div align="center">
-  <img src="https://github.com/dangspr/dbt-bigquery/blob/main/gcp_docs1.png" alt="Evidencia_gcp">
+  <img src="https://github.com/dangspr/dbt-bigquery/blob/main/gcp_docs.png" alt="Evidencia_gcp">
 </div>
 
 ## 🧱 Arquitetura da Solução
