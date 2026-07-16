@@ -57,7 +57,7 @@ A nova estrutura segue a arquitetura Medallion, separando os modelos em camadas 
 ├── dbt_project.yml        # Configurações globais do projeto dbt
 ├── models/
 │   ├── raw/               # Camada Raw: Dados brutos, imutáveis e de origem
-│   │   ├── triggo_shop.sql
+│   │   ├── tg_shop.sql
 │   │   └── schema.yml
 │   ├── stg/               # Camada Staging: Dados limpos, padronizados e intermediários
 │   │   ├── customers.sql
@@ -81,7 +81,7 @@ Este projeto transforma dados brutos de pedidos e clientes em uma tabela analít
 Fonte de dados brutos do projeto. Contém a tabela estática com dados de clientes e pedidos.
 
 ```sql
--- models/raw/triggo_shop.sql
+-- models/raw/tg_shop.sql
 {{
   config(
     materialized='table'
@@ -97,9 +97,9 @@ select
     status
 from (
     select * from unnest([
-        struct(1 as id, 'Enio' as first_name, 'Tanner' as last_name, 1 as user_id, '2023-01-10' as order_date, 'delivered' as status),
-        struct(2 as id, 'Galego' as first_name, 'Manson' as last_name, 1 as user_id, '2023-01-15' as order_date, 'shipped' as status),
-        struct(3 as id, 'Michelle' as first_name, 'Manson' as last_name, 2 as user_id, '2023-01-18' as order_date, 'delivered' as status),
+        struct(1 as id, 'Elias' as first_name, 'Tanner' as last_name, 1 as user_id, '2023-01-10' as order_date, 'delivered' as status),
+        struct(2 as id, 'Hudson' as first_name, 'Manson' as last_name, 1 as user_id, '2023-01-15' as order_date, 'shipped' as status),
+        struct(3 as id, 'Michell' as first_name, 'Manson' as last_name, 2 as user_id, '2023-01-18' as order_date, 'delivered' as status),
         struct(4 as id, 'Edson' as first_name, 'Manson' as last_name, 2 as user_id, '2023-01-20' as order_date, 'pending' as status),
         struct(5 as id, 'Murilo' as first_name, 'Tanner' as last_name, 3 as user_id, '2023-01-22' as order_date, 'delivered' as status)
     ])
@@ -121,7 +121,7 @@ select
     id as customer_id,
     first_name,
     last_name
-from {{ ref('triggo_shop') }}
+from {{ ref('tg_shop') }}
 ```
 
 ```sql
@@ -137,7 +137,7 @@ select
     user_id as customer_id,
     order_date,
     status
-from {{ ref('triggo_shop') }}
+from {{ ref('tg_shop') }}
 ```
 
 ### 📊 Camada refined: customer_orders_summary
